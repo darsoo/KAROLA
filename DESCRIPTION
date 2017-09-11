@@ -1,0 +1,15 @@
+Package: KAROLA
+Type: Package
+Title: Key-Abstract Record On-Line Analizator
+Version: 0.0.0.9000
+Author: Dariusz Scigocki <daro.scig@gmail.com>
+Maintainer: Dariusz Scigocki <daro.scig@gmail.com>
+Description: This pack include function necesary to prepare data to visualization in ANNA.
+    More info will be added.
+Depends: R (>= 3.1.0)
+Imports: RPostgreSQL (>= 0.6), DBI(>= 0.7)
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+Suggests: testthat

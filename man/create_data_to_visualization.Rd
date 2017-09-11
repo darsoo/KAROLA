@@ -6,7 +6,9 @@
 \usage{
 create_data_to_visualization(word, lemma_table, table_exist = F,
   output_file = "dfaw", first_analyzed_date = "2000-01-01",
-  last_analyzed_date = "2016-12-01", dictionary_exist = T)
+  last_analyzed_date = "2016-12-01", dictionary_exist = T,
+  dbname = "medline", host = "localhost", port = 5432,
+  user = "username", password = "password")
 }
 \arguments{
 \item{word}{Character. Word which is analizing.It's nesesary to add
@@ -29,6 +31,21 @@ table with name: \code{lemma_table}}
 \item{dictionary_exist}{Logical. If you have a dictionary in file it
 should TRUE. Otherwise function prepare this file, but this take a lot of
 time.}
+
+\item{dbname}{Character. Information about PostgreSQL database
+connection. Database name.}
+
+\item{host}{Character. Information about PostgreSQL database
+connection. Host.}
+
+\item{port}{Integer. Information about PostgreSQL database connection.
+Port number.}
+
+\item{user}{Character. Information about PostgreSQL database
+connection. PostgreSQL username.}
+
+\item{password}{Character. Information about PostgreSQL database
+connection. PostgreSQL user's password.}
 }
 \value{
 Table with count words in every time interval (deflaut - year) in

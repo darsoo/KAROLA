@@ -145,7 +145,8 @@ preper_data_to_ANNA <-
              output = "output",
              dictionary = "dictionary",
              save_to_file = T,
-             output_file = "output_file"){
+             output_file = "output_file"
+             ){
         output <-  merge(input, dictionary, by = "word_id", all.x = T)
         output <- output[, c(1, length(output), 2:(length(output) - 1))]
         output <- output[2:nrow(output), ]
@@ -168,6 +169,16 @@ preper_data_to_ANNA <-
 #'   existing table from \code{\link{create_database}}
 #' @param table_exist         Logical. If FALSE, function automaticly create new
 #'   table with name: \code{lemma_table}
+#' @param dbname      Character. Information about PostgreSQL database
+#'   connection. Database name.
+#' @param host        Character. Information about PostgreSQL database
+#'   connection. Host.
+#' @param port        Integer. Information about PostgreSQL database connection.
+#'   Port number.
+#' @param user        Character. Information about PostgreSQL database
+#'   connection. PostgreSQL username.
+#' @param password    Character. Information about PostgreSQL database
+#'   connection. PostgreSQL user's password.
 #' @param output_file         Character. Name of output file.
 #' @param first_analyzed_date Date : YYYY-MM-DD. Month to start analysis
 #' @param last_analyzed_date  Date : YYYY-MM-DD. Month to stop analysis
@@ -185,20 +196,55 @@ create_data_to_visualization <- function(word, lemma_table,
                                          output_file = "dfaw",
                                          first_analyzed_date = "2000-01-01",
                                          last_analyzed_date = "2016-12-01",
-                                         dictionary_exist = T){
-    if (table_exist == F){
-        create_database(word = word, lemma_table = lemma_table)
+                                         dictionary_exist = T,
+                                         dbname = "medline",
+                                         host = "localhost",
+                                         port = 5432,
+                                         user = "username",
+                                         password = "password"){
+    if (table_exist == F) {
+        create_database(
+            word = word,
+            lemma_table = lemma_table,
+            dbname = dbname,
+            host = host,
+            port = port,
+            user = user,
+            password = password
+        )
     }
-    table_with_count_words <- create_table_with_count_words(lemma_table = lemma_table,
-                                                            first_analyzed_date = first_analyzed_date,
-                                                            last_analyzed_date = last_analyzed_date)
-
-    if(dictionary_exist == F){
-        dictionary <- download_dictionary()
+    table_with_count_words <-
+        create_table_with_count_words(
+            lemma_table = lemma_table,
+            first_analyzed_date = first_analyzed_date,
+            last_analyzed_date = last_analyzed_date,
+            dbname = dbname,
+            host = host,
+            port = port,
+            user = user,
+            password = password
+        )
+    if (dictionary_exist == F) {
+        dictionary <- download_dictionary(
+            dbname = dbname,
+            host = host,
+            port = port,
+            user = user,
+            password = password
+        )
     } else{
-        dictionary <- utils::read.table(file = "dictionary", header = T, sep = "\t", stringsAsFactors = F)
+
+        dictionary <-
+            utils::read.table(
+                file = "dictionary",
+                header = T,
+                sep = "\t",
+                stringsAsFactors = F
+            )
     }
-    preper_data_to_ANNA(input = table_with_count_words, output_file = output_file, dictionary = dictionary)
+    preper_data_to_ANNA(input = table_with_count_words,
+                        output_file = output_file,
+                        dictionary = dictionary)
 }
 
 #####

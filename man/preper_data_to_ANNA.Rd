@@ -4,21 +4,18 @@
 \alias{preper_data_to_ANNA}
 \title{Parse and claring data to visualisation in shiny-app ANNA.}
 \usage{
-preper_data_to_ANNA(input = "input", output = "output",
-  dictionary = "dictionary", save_to_file = T,
-  output_file = "output_file")
+preper_data_to_ANNA(input = "input", output_file = "output_file",
+  dictionary = "dictionary", save_to_file = T)
 }
 \arguments{
 \item{input}{Table. Table with count words from \code{\link{create_table_with_count_words}}.}
 
-\item{output}{character. Output varible}
+\item{output_file}{character. Opis.}
 
 \item{dictionary}{character. Location and name of dictionary file.}
 
 \item{save_to_file}{Logical. If TRUE creat a output file with name:
 \code{output_file}}
-
-\item{output_file}{character. Opis.}
 }
 \value{
 Table with count words in every time interval (deflaut - year)

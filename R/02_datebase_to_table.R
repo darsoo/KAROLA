@@ -122,7 +122,7 @@ download_dictionary <- function(dbname = "medline",
     query<-("SELECT * FROM library")
     dictionary <- RPostgreSQL::dbGetQuery(connection, query)
     RPostgreSQL::dbDisconnect(connection)
-    DBI::dbUnloadDriver(drv)
+    #DBI::dbUnloadDriver(drv)
     return(dictionary)
 }
 
@@ -131,21 +131,19 @@ download_dictionary <- function(dbname = "medline",
 #' Parse and claring data to visualisation in shiny-app ANNA.
 #'
 #' @param input         Table. Table with count words from \code{\link{create_table_with_count_words}}.
-#' @param output        character. Output varible
+#' @param output_file   character. Opis.
 #' @param dictionary    character. Location and name of dictionary file.
 #' @param save_to_file  Logical. If TRUE creat a output file with name:
 #'   \code{output_file}
-#' @param output_file   character. Opis.
 #' @return Table with count words in every time interval (deflaut - year)
 #' @export
 #' @examples
 #' #preper_data_to_ANNA()
 preper_data_to_ANNA <-
     function(input = "input",
-             output = "output",
+             output_file = "output_file",
              dictionary = "dictionary",
-             save_to_file = T,
-             output_file = "output_file"
+             save_to_file = T
              ){
         output <-  merge(input, dictionary, by = "word_id", all.x = T)
         output <- output[, c(1, length(output), 2:(length(output) - 1))]
@@ -185,6 +183,8 @@ preper_data_to_ANNA <-
 #' @param dictionary_exist    Logical. If you have a dictionary in file it
 #'   should TRUE. Otherwise function prepare this file, but this take a lot of
 #'   time.
+#' @param save_to_file  Logical. If TRUE creat a output file with name:
+#'   \code{output_file}
 #' @return Table with count words in every time interval (deflaut - year) in
 #'   abstracts with \code{word}.
 #' @export
@@ -193,7 +193,7 @@ preper_data_to_ANNA <-
 
 create_data_to_visualization <- function(word, lemma_table,
                                          table_exist = F,
-                                         output_file = "dfaw",
+                                         output_file = "output_file",
                                          first_analyzed_date = "2000-01-01",
                                          last_analyzed_date = "2016-12-01",
                                          dictionary_exist = T,
@@ -201,7 +201,8 @@ create_data_to_visualization <- function(word, lemma_table,
                                          host = "localhost",
                                          port = 5432,
                                          user = "username",
-                                         password = "password"){
+                                         password = "password",
+                                         save_to_file = T){
     if (table_exist == F) {
         create_database(
             word = word,
@@ -243,8 +244,9 @@ create_data_to_visualization <- function(word, lemma_table,
             )
     }
     preper_data_to_ANNA(input = table_with_count_words,
-                        output_file = output_file,
-                        dictionary = dictionary)
+                        dictionary = dictionary,
+                        save_to_file = save_to_file,
+                        output_file = output_file)
 }
 
 #####

@@ -5,10 +5,10 @@
 \title{Opis funkcji}
 \usage{
 create_data_to_visualization(word, lemma_table, table_exist = F,
-  output_file = "dfaw", first_analyzed_date = "2000-01-01",
+  output_file = "output_file", first_analyzed_date = "2000-01-01",
   last_analyzed_date = "2016-12-01", dictionary_exist = T,
   dbname = "medline", host = "localhost", port = 5432,
-  user = "username", password = "password")
+  user = "username", password = "password", save_to_file = T)
 }
 \arguments{
 \item{word}{Character. Word which is analizing.It's nesesary to add
@@ -46,6 +46,9 @@ connection. PostgreSQL username.}
 
 \item{password}{Character. Information about PostgreSQL database
 connection. PostgreSQL user's password.}
+
+\item{save_to_file}{Logical. If TRUE creat a output file with name:
+\code{output_file}}
 }
 \value{
 Table with count words in every time interval (deflaut - year) in

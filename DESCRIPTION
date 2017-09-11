@@ -6,6 +6,8 @@ Author: Dariusz Scigocki <daro.scig@gmail.com>
 Maintainer: Dariusz Scigocki <daro.scig@gmail.com>
 Description: This pack include function necesary to prepare data to visualization in ANNA.
     More info will be added.
+URL: https://github.com/darsoo/KAROLA
+BugReports: https://github.com/darsoo/KAROLA/issues
 Depends: R (>= 3.1.0)
 Imports: RPostgreSQL (>= 0.6), DBI(>= 0.7)
 License: GPL-2

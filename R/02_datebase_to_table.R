@@ -64,7 +64,7 @@ create_table_with_count_words <- function(lemma_table = "new_table", #table from
         # count words in the given time interval
             query_words_count_in_month <- paste0("SELECT unnest(words) AS word_id, count(unnest(words)) AS c", i ,"
             FROM ", lemma_table, " WHERE pmid IN
-            (SELECT pmid FROM data WHERE (date = '",date_id,"'))
+            (SELECT pmid FROM date WHERE (date = '",date_id,"'))
             GROUP by word_id
             ORDER by word_id;")
             print(paste("Now ",date_id," is analyzing"))
@@ -119,7 +119,7 @@ download_dictionary <- function(dbname = "medline",
     connection <- RPostgreSQL::dbConnect(drv, dbname = dbname,
                             host = host, port = port,
                             user = user, password = password)
-    query<-("SELECT * FROM biblioteka")
+    query<-("SELECT * FROM library")
     dictionary <- RPostgreSQL::dbGetQuery(connection, query)
     RPostgreSQL::dbDisconnect(connection)
     DBI::dbUnloadDriver(drv)

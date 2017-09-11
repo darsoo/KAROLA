@@ -75,7 +75,7 @@ create_table_with_count_words <- function(lemma_table = "new_table", #table from
             if (i %% 12 == 0 | i == last_analyzed_new_date){
                 Year <- 1800 + (i%/%12) - 1
             # if last date is December it's necessary to make correction
-                if (xor(i == last_analyzed_new_date, i %% 12 == 0)){Year <- 1800 + (i%/%12)}
+                if (i %% 12 != 0){Year <- 1800 + (i%/%12)}
             # sum all month in year and add new column in output df
                 Year_as_character <- as.character(Year)
                 df_for_month_in_year[,Year_as_character] <- rowSums(df_for_month_in_year[,c(2:length(df_for_month_in_year))],na.rm = T)

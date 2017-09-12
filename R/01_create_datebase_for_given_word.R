@@ -78,7 +78,7 @@ create_database <- function(word,
             RPostgreSQL::dbGetQuery(connection, query_creat_table)
         print(paste0("Table ", lemma_table, " successfully"))
     }
-    return()
     RPostgreSQL::dbDisconnect(connection)
     DBI::dbUnloadDriver(drv)
+    return()
 }

@@ -87,10 +87,11 @@ create_table_with_count_words <- function(lemma_table = "new_table", #table from
                 df_for_month_in_year <- data.frame(word_id="", stringsAsFactors=FALSE)
             }
         }
-    return(output_df)
     RPostgreSQL::dbDisconnect(connection)
     DBI::dbUnloadDriver(drv)
+    return(output_df)
 }
+
 
 #####
 
@@ -121,10 +122,10 @@ download_dictionary <- function(dbname = "medline",
     connection <- RPostgreSQL::dbConnect(drv, dbname = dbname,
                             host = host, port = port,
                             user = user, password = password)
-    query<-("SELECT * FROM library")
+    query <- ("SELECT * FROM library")
     dictionary <- RPostgreSQL::dbGetQuery(connection, query)
     RPostgreSQL::dbDisconnect(connection)
-    #DBI::dbUnloadDriver(drv)
+    DBI::dbUnloadDriver(drv)
     return(dictionary)
 }
 

@@ -1,7 +1,7 @@
 
 #####
 
-#' Create table with count all words in analising abstracts.
+#' Create table with count all words in analyzing abstracts.
 #'
 #' @param lemma_table Character. Name of source table or table from \code{\link{create_database}}.
 #' @param dbname      Character. Information about PostgreSQL database
@@ -34,6 +34,16 @@ create_table_with_count_words <- function(lemma_table = "new_table", #table from
                                          first_analyzed_date = "2000-01-01",
                                          last_analyzed_date = "2016-12-01"
                                          ){
+    # check param class
+    if (class(lemma_table) != "character") stop("param class error")
+    if (class(dbname) != "character") stop("param class error")
+    if (class(host) != "character") stop("param class error")
+    if (class(port) != "numeric") stop("param class error")
+    if (class(user) != "character") stop("param class error")
+    if (class(password) != "character") stop("param class error")
+    if (class(try(as.Date(first_analyzed_date))) != "Date") stop("param class error")
+    if (class(try(as.Date(last_analyzed_date))) != "Date") stop("param class error")
+
     # create a connection
         drv <- DBI::dbDriver("PostgreSQL")
         connection <- RPostgreSQL::dbConnect(drv, dbname = dbname,
@@ -118,6 +128,14 @@ download_dictionary <- function(dbname = "medline",
                                 port = 5432,
                                 user = "username",
                                 password = "password"){
+    # check param class
+    if (class(dbname) != "character") stop("param class error")
+    if (class(host) != "character") stop("param class error")
+    if (class(port) != "numeric") stop("param class error")
+    if (class(user) != "character") stop("param class error")
+    if (class(password) != "character") stop("param class error")
+
+    # create a connection
     drv <- DBI::dbDriver("PostgreSQL")
     connection <- RPostgreSQL::dbConnect(drv, dbname = dbname,
                             host = host, port = port,
@@ -148,6 +166,12 @@ preper_data_to_ANNA <-
              dictionary = "dictionary",
              save_to_file = T
              ){
+        # check param class
+        if (class(input) != "character") stop("param class error")
+        if (class(output_file) != "character") stop("param class error")
+        if (class(dictionary) != "character") stop("param class error")
+        if (class(save_to_file) != "logical") stop("param class error")
+        #
         output <-  merge(input, dictionary, by = "word_id", all.x = T)
         output <- output[, c(1, length(output), 2:(length(output) - 1))]
         output <- output[2:nrow(output), ]
@@ -162,7 +186,7 @@ preper_data_to_ANNA <-
 
 #' Opis funkcji
 #'
-#' @param word        Character. Word which is analizing.It's nesesary to add
+#' @param word        Character. Word which is analyzing.It's nesesary to add
 #'   sufix after "_" with part of speech tag. List of all tag and thier expands
 #'   is available on site:
 #'   \url{http://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html}.
@@ -194,7 +218,8 @@ preper_data_to_ANNA <-
 #' @examples
 #' #create_data_to_visualization()
 
-create_data_to_visualization <- function(word, lemma_table,
+create_data_to_visualization <- function(word,
+                                         lemma_table,
                                          table_exist = F,
                                          output_file = "output_file",
                                          first_analyzed_date = "2000-01-01",
@@ -206,6 +231,22 @@ create_data_to_visualization <- function(word, lemma_table,
                                          user = "username",
                                          password = "password",
                                          save_to_file = T){
+    # check param class
+    if (class(word) != "character") stop("param class error")
+    if (class(lemma_table) != "character") stop("param class error")
+    if (class(table_exist) != "logical") stop("param class error")
+    if (class(output_file) != "character") stop("param class error")
+    if (class(try(as.Date(first_analyzed_date))) != "Date") stop("param class error")
+    if (class(try(as.Date(last_analyzed_date))) != "Date") stop("param class error")
+    if (class(dictionary_exist) != "logical") stop("param class error")
+    if (class(dbname) != "character") stop("param class error")
+    if (class(host) != "character") stop("param class error")
+    if (class(port) != "numeric") stop("param class error")
+    if (class(user) != "character") stop("param class error")
+    if (class(password) != "character") stop("param class error")
+    if (class(save_to_file) != "logical") stop("param class error")
+
+    #
     if (table_exist == F) {
         create_database(
             word = word,

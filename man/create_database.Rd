@@ -22,7 +22,7 @@ connection. Database name.}
 \item{host}{Character. Information about PostgreSQL database
 connection. Host.}
 
-\item{port}{Integer. Information about PostgreSQL database connection.
+\item{port}{Numeric. Information about PostgreSQL database connection.
 Port number.}
 
 \item{user}{Character. Information about PostgreSQL database

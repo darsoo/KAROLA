@@ -1,4 +1,4 @@
-create table abstracts(pmid integer,words integer[])
+create table abstracts(pmid integer,words integer[]);
 copy abstracts from '~\SQL\abstracts.test.tab' DELIMITERS E'\t' ;
 
 create table date(pmid integer,date date);

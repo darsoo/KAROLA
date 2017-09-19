@@ -2,12 +2,11 @@
 % Please edit documentation in R/02_datebase_to_table.R
 \name{create_table_with_count_words}
 \alias{create_table_with_count_words}
-\title{Create table with count all words in analising abstracts.}
+\title{Create table with count all words in analyzing abstracts.}
 \usage{
 create_table_with_count_words(lemma_table = "new_table", dbname = "medline",
-  host = "localhost", port = 5432, user = "username",
-  password = "password", first_analyzed_date = "2000-01-01",
-  last_analyzed_date = "2016-12-01")
+  host = "localhost", port = 5432, user = "", password = "",
+  first_analyzed_date = "2000-01-01", last_analyzed_date = "2016-12-01")
 }
 \arguments{
 \item{lemma_table}{Character. Name of source table or table from \code{\link{create_database}}.}
@@ -35,7 +34,7 @@ connection. PostgreSQL user's password.}
 Table with count words from \code{lemma_table}.
 }
 \description{
-Create table with count all words in analising abstracts.
+Create table with count all words in analyzing abstracts.
 }
 \examples{
 #create_table_with_count_words("new_table")

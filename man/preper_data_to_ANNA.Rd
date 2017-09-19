@@ -2,7 +2,7 @@
 % Please edit documentation in R/02_datebase_to_table.R
 \name{preper_data_to_ANNA}
 \alias{preper_data_to_ANNA}
-\title{Parse and claring data to visualisation in shiny-app ANNA.}
+\title{Parse and clearing data to visualisation in shiny-app ANNA.}
 \usage{
 preper_data_to_ANNA(input = "input", output_file = "output_file",
   dictionary = "dictionary", save_to_file = T)
@@ -21,7 +21,7 @@ preper_data_to_ANNA(input = "input", output_file = "output_file",
 Table with count words in every time interval (deflaut - year)
 }
 \description{
-Parse and claring data to visualisation in shiny-app ANNA.
+Parse and clearing data to visualisation in shiny-app ANNA.
 }
 \examples{
 #preper_data_to_ANNA()

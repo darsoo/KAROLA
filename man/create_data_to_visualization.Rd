@@ -11,7 +11,7 @@ create_data_to_visualization(word, lemma_table, table_exist = F,
   user = "username", password = "password", save_to_file = T)
 }
 \arguments{
-\item{word}{Character. Word which is analizing.It's nesesary to add
+\item{word}{Character. Word which is analyzing.It's nesesary to add
 sufix after "_" with part of speech tag. List of all tag and thier expands
 is available on site:
 \url{http://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html}.}

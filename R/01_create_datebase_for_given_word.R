@@ -26,6 +26,7 @@
 #' This function create table in postgres with abstracts which indlude \code{word}.
 #' @importFrom DBI dbDriver
 #' @import RPostgreSQL
+#' @import getPass
 #' @export
 #' @examples
 #' #create_database("cancer_NN")
@@ -34,14 +35,16 @@ create_database <- function(word,
                             dbname = "medline",
                             host = "localhost",
                             port = 5432,
-                            user = "username",
-                            password = "password") {
+                            user = "",
+                            password = "") {
     # check param class
     if (class(word) != "character") stop("param class error")
     if (class(lemma_table) != "character") stop("param class error")
     if (class(dbname) != "character") stop("param class error")
     if (class(host) != "character") stop("param class error")
     if (class(port) != "numeric") stop("param class error")
+    if (user == "") user <- getPass(msg = "write postges username", noblank = T)
+    if (password == "") password <- getPass(msg = paste0("write password for ",user), noblank = T)
     if (class(user) != "character") stop("param class error")
     if (class(password) != "character") stop("param class error")
 

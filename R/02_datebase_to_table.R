@@ -19,6 +19,7 @@
 #' @return Table with count words from \code{lemma_table}.
 #' @importFrom DBI dbDriver
 #' @import RPostgreSQL
+#' @import getPass
 #' @export
 #' @examples
 #' #create_table_with_count_words("new_table")
@@ -28,8 +29,8 @@ create_table_with_count_words <- function(lemma_table = "new_table", #table from
                                          dbname = "medline",
                                          host = "localhost",
                                          port = 5432,
-                                         user = "username",
-                                         password = "password",
+                                         user = "",
+                                         password = "",
                                          #date input format "YYYY-MM-01"
                                          first_analyzed_date = "2000-01-01",
                                          last_analyzed_date = "2016-12-01"
@@ -39,6 +40,8 @@ create_table_with_count_words <- function(lemma_table = "new_table", #table from
     if (class(dbname) != "character") stop("param class error")
     if (class(host) != "character") stop("param class error")
     if (class(port) != "numeric") stop("param class error")
+    if (user == "") user <- getPass(msg = "write postges username", noblank = T)
+    if (password == "") password <- getPass(msg = paste0("write password for ",user), noblank = T)
     if (class(user) != "character") stop("param class error")
     if (class(password) != "character") stop("param class error")
     if (class(try(as.Date(first_analyzed_date))) != "Date") stop("param class error")
@@ -120,18 +123,21 @@ create_table_with_count_words <- function(lemma_table = "new_table", #table from
 #' @return Table with all words existing in source data base.
 #' @importFrom DBI dbDriver
 #' @import RPostgreSQL
+#' @import getPass
 #' @export
 #' @examples
 #' #download_dictionary()
 download_dictionary <- function(dbname = "medline",
                                 host = "localhost",
                                 port = 5432,
-                                user = "username",
-                                password = "password"){
+                                user = "",
+                                password = ""){
     # check param class
     if (class(dbname) != "character") stop("param class error")
     if (class(host) != "character") stop("param class error")
     if (class(port) != "numeric") stop("param class error")
+    if (user == "") user <- getPass(msg = "write postges username", noblank = T)
+    if (password == "") password <- getPass(msg = paste0("write password for ",user), noblank = T)
     if (class(user) != "character") stop("param class error")
     if (class(password) != "character") stop("param class error")
 
@@ -149,7 +155,7 @@ download_dictionary <- function(dbname = "medline",
 
 #####
 
-#' Parse and claring data to visualisation in shiny-app ANNA.
+#' Parse and clearing data to visualisation in shiny-app ANNA.
 #'
 #' @param input         Table. Table with count words from \code{\link{create_table_with_count_words}}.
 #' @param output_file   character. Opis.
@@ -214,6 +220,7 @@ preper_data_to_ANNA <-
 #'   \code{output_file}
 #' @return Table with count words in every time interval (deflaut - year) in
 #'   abstracts with \code{word}.
+#' @import getPass
 #' @export
 #' @examples
 #' #create_data_to_visualization()
@@ -228,8 +235,8 @@ create_data_to_visualization <- function(word,
                                          dbname = "medline",
                                          host = "localhost",
                                          port = 5432,
-                                         user = "username",
-                                         password = "password",
+                                         user = "",
+                                         password = "",
                                          save_to_file = T){
     # check param class
     if (class(word) != "character") stop("param class error")
@@ -242,6 +249,8 @@ create_data_to_visualization <- function(word,
     if (class(dbname) != "character") stop("param class error")
     if (class(host) != "character") stop("param class error")
     if (class(port) != "numeric") stop("param class error")
+    if (user == "") user <- getPass(msg = "write postges username", noblank = T)
+    if (password == "") password <- getPass(msg = paste0("write password for ",user), noblank = T)
     if (class(user) != "character") stop("param class error")
     if (class(password) != "character") stop("param class error")
     if (class(save_to_file) != "logical") stop("param class error")

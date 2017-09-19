@@ -14,11 +14,11 @@ preper_data_to_ANNA(input = "input", output_file = "output_file",
 
 \item{dictionary}{character. Location and name of dictionary file.}
 
-\item{save_to_file}{Logical. If TRUE creat a output file with name:
+\item{save_to_file}{Logical. If TRUE create a output file with name:
 \code{output_file}}
 }
 \value{
-Table with count words in every time interval (deflaut - year)
+Table with count words in every time interval (default - year)
 }
 \description{
 Parse and clearing data to visualisation in shiny-app ANNA.

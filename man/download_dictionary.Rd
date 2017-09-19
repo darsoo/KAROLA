@@ -5,7 +5,7 @@
 \title{Create table with dictionary of all words.}
 \usage{
 download_dictionary(dbname = "medline", host = "localhost", port = 5432,
-  user = "username", password = "password")
+  user = "", password = "")
 }
 \arguments{
 \item{dbname}{Character. Information about PostgreSQL database

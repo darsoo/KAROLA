@@ -8,8 +8,8 @@ create_database(word, lemma_table = "new_table", dbname = "medline",
   host = "localhost", port = 5432, user = "", password = "")
 }
 \arguments{
-\item{word}{Character. Word which is analyzing.It's nesesary to add
-sufix after "_" with part of speech tag. List of all tag and thier expands
+\item{word}{Character. Word which is analyzing.Its nesesary to add
+sufix after "_" with part of speech tag. List of all tag and their expands
 is available on site:
 \url{http://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html}.}
 
@@ -32,10 +32,10 @@ connection. PostgreSQL user's password.}
 }
 \value{
 There is no output. \cr
-This function create table in postgres with abstracts which indlude \code{word}.
+This function create table in postgres with abstracts which include \code{word}.
 }
 \description{
-Create a new table with abstracts which indlude search word. To correct work
+Create a new table with abstracts which include search word. To correct work
 this function needs 2 tables in PostgreSQL : \cr
 library - word_id:INTEGER, word:TEXT \cr
 abstracts - pmid:INTEGER, words:INTEGER[] \cr

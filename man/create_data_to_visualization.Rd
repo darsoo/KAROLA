@@ -7,19 +7,19 @@
 create_data_to_visualization(word, lemma_table, table_exist = F,
   output_file = "output_file", first_analyzed_date = "2000-01-01",
   last_analyzed_date = "2016-12-01", dictionary_exist = T,
-  dbname = "medline", host = "localhost", port = 5432,
-  user = "username", password = "password", save_to_file = T)
+  dbname = "medline", host = "localhost", port = 5432, user = "",
+  password = "", save_to_file = T)
 }
 \arguments{
-\item{word}{Character. Word which is analyzing.It's nesesary to add
-sufix after "_" with part of speech tag. List of all tag and thier expands
+\item{word}{Character. Word which is analyzing.Its nesesary to add
+sufix after "_" with part of speech tag. List of all tag and their expands
 is available on site:
 \url{http://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html}.}
 
 \item{lemma_table}{Character. Name of table which will be created or
 existing table from \code{\link{create_database}}}
 
-\item{table_exist}{Logical. If FALSE, function automaticly create new
+\item{table_exist}{Logical. If FALSE, function automatically  create new
 table with name: \code{lemma_table}}
 
 \item{output_file}{Character. Name of output file.}
@@ -47,11 +47,11 @@ connection. PostgreSQL username.}
 \item{password}{Character. Information about PostgreSQL database
 connection. PostgreSQL user's password.}
 
-\item{save_to_file}{Logical. If TRUE creat a output file with name:
+\item{save_to_file}{Logical. If TRUE create a output file with name:
 \code{output_file}}
 }
 \value{
-Table with count words in every time interval (deflaut - year) in
+Table with count words in every time interval (default - year) in
   abstracts with \code{word}.
 }
 \description{

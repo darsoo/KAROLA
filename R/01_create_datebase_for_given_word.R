@@ -77,18 +77,26 @@ create_database <- function(word,
             paste0("SELECT word_id FROM library WHERE word = '", word, "';")
         word_id <-
             RPostgreSQL::dbGetQuery(connection, query_word_id_download)
+        # try to change word_id's classfrom data.frame to numeric
+        try (word_id <- as.numeric(word_id))
         # create new table with PMID with given word
-        query_creat_table <-
-            paste0(
-                "SELECT * INTO ",
-                lemma_table,
-                " FROM abstracts WHERE (",
-                word_id,
-                " = ANY(words));"
-            )
+        if(class(word_id) == "numeric" & length(word_id) != 0){
+            query_creat_table <-
+                paste0(
+                    "SELECT * INTO ",
+                    lemma_table,
+                    " FROM abstracts WHERE (",
+                    word_id,
+                    " = ANY(words));"
+                )
         df_postgres <-
             RPostgreSQL::dbGetQuery(connection, query_creat_table)
         print(paste0("Table ", lemma_table, " successfully"))
+        } else{
+            RPostgreSQL::dbDisconnect(connection)
+            DBI::dbUnloadDriver(drv)
+            stop(paste0('given word: "', word, '" does not exist in database'))
+        }
     }
     RPostgreSQL::dbDisconnect(connection)
     DBI::dbUnloadDriver(drv)

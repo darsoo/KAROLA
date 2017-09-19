@@ -55,7 +55,7 @@ create_table_with_count_words <- function(lemma_table = "new_table", #table from
     # check that exist table with given name
         table_exist_check <- RPostgreSQL::dbExistsTable(connection, lemma_table)
 
-    # break function if table dosen't exist
+    # break function if table doesn't exist
         if (table_exist_check == F) {
             output <- print(paste0("Table ",lemma_table," doesn't exist. Please change table name"))
             stop(output ,call. = T)
@@ -160,9 +160,9 @@ download_dictionary <- function(dbname = "medline",
 #' @param input         Table. Table with count words from \code{\link{create_table_with_count_words}}.
 #' @param output_file   character. Opis.
 #' @param dictionary    character. Location and name of dictionary file.
-#' @param save_to_file  Logical. If TRUE creat a output file with name:
+#' @param save_to_file  Logical. If TRUE create a output file with name:
 #'   \code{output_file}
-#' @return Table with count words in every time interval (deflaut - year)
+#' @return Table with count words in every time interval (default - year)
 #' @export
 #' @examples
 #' #preper_data_to_ANNA()
@@ -192,13 +192,13 @@ preper_data_to_ANNA <-
 
 #' Opis funkcji
 #'
-#' @param word        Character. Word which is analyzing.It's nesesary to add
-#'   sufix after "_" with part of speech tag. List of all tag and thier expands
+#' @param word        Character. Word which is analyzing.Its nesesary to add
+#'   sufix after "_" with part of speech tag. List of all tag and their expands
 #'   is available on site:
 #'   \url{http://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html}.
 #' @param lemma_table         Character. Name of table which will be created or
 #'   existing table from \code{\link{create_database}}
-#' @param table_exist         Logical. If FALSE, function automaticly create new
+#' @param table_exist         Logical. If FALSE, function automatically  create new
 #'   table with name: \code{lemma_table}
 #' @param dbname      Character. Information about PostgreSQL database
 #'   connection. Database name.
@@ -216,9 +216,9 @@ preper_data_to_ANNA <-
 #' @param dictionary_exist    Logical. If you have a dictionary in file it
 #'   should TRUE. Otherwise function prepare this file, but this take a lot of
 #'   time.
-#' @param save_to_file  Logical. If TRUE creat a output file with name:
+#' @param save_to_file  Logical. If TRUE create a output file with name:
 #'   \code{output_file}
-#' @return Table with count words in every time interval (deflaut - year) in
+#' @return Table with count words in every time interval (default - year) in
 #'   abstracts with \code{word}.
 #' @import getPass
 #' @export

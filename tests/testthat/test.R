@@ -7,8 +7,8 @@ password <- readline(prompt = "write password for user: ")
 # dbname <- "postgres"
 # port <- 5432
 # host <- "localhost"
-# user <- "username"
-# password <- "password"
+# user <- "daroso"
+# password <- "xxxxxx"
 
 ##############################################################################################################
 # test_create_database.R
@@ -38,8 +38,8 @@ arguments <- list(
     dbname = "test_data_base",
     host = "localhost",
     port = 5432,
-    user = "username",
-    password = "password"
+    user = user,
+    password = password
 )
 test_that("make table with wrong word",{
     expect_error(do.call(create_database, arguments))
@@ -59,8 +59,8 @@ arguments <- list(lemma_table = "test_table",
                   dbname = "test_data_base",
                   host = "localhost",
                   port = 5432,
-                  user = "username",
-                  password = "password",
+                  user = user,
+                  password = password,
                   first_analyzed_date = "2016-01-01",
                   last_analyzed_date = "2016-12-01")
 

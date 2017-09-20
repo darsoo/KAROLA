@@ -4,18 +4,25 @@ host <- readline(prompt = "write postgres host: " )
 user <- readline(prompt = "write postgres username: ")
 password <- readline(prompt = "write password for user: ")
 
+# dbname <- "postgres"
+# port <- 5432
+# host <- "localhost"
+# user <- "username"
+# password <- "password"
+
 ##############################################################################################################
 # test_create_database.R
 library(KAROLA)
 context("create_database")
 
+drop_test_data_base(dbname = dbname, host = host, port = port, user = user, password = password)
 create_test_data_base(dbname = dbname, host = host, port = port, user = user, password = password)
 
 #####
 arguments <- list(
     word = "cancer_NN",
     lemma_table = "test_new_table_1",
-    dbname = dbname,
+    dbname = "test_data_base",
     host = host,
     port = port,
     user = user,

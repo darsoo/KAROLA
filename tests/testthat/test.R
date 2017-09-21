@@ -81,6 +81,32 @@ test_that("test for fix bug - 2", {
     expect_equal(ncol(function_output), 3)
 })
 #####
+
+# use_argument <- arguments
+# use_argument["json"] <- "test.json-wou/wop"
+# use_argument["first_analyzed_date"] <- "2015-12-01"
+# use_argument["last_analyzed_date"] <- "2016-02-01"
+# function_output <- ""
+# function_output <- do.call(create_table_with_count_words, use_argument)
+#
+# test_that("test for fix bug - 1", {
+#     expect_is(function_output, "data.frame")
+# })
+
+##############################################################################################################
+# test_download_dictionary.R
+
+dictionary <- download_dictionary(json = "test.json")
+
+test_that("test dictionary data frame param", {
+    expect_is(dictionary, "data.frame")
+    expect_equal(nrow(dictionary), 10307)
+    expect_equal(ncol(dictionary), 2)
+    expect_equal(dictionary[2,1], 11817)
+})
+
+##############################################################################################################
+
 drop_test_data_base(json = "test.json")
 
 ##############################################################################################################

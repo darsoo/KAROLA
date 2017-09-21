@@ -4,24 +4,16 @@
 \alias{download_dictionary}
 \title{Create table with dictionary of all words.}
 \usage{
-download_dictionary(dbname = "medline", host = "localhost", port = 5432,
-  user = "", password = "")
+download_dictionary(json)
 }
 \arguments{
-\item{dbname}{Character. Information about PostgreSQL database
-connection. Database name.}
-
-\item{host}{Character. Information about PostgreSQL database
-connection. Host.}
-
-\item{port}{Integer. Information about PostgreSQL database connection.
-Port number.}
-
-\item{user}{Character. Information about PostgreSQL database
-connection. PostgreSQL username.}
-
-\item{password}{Character. Information about PostgreSQL database
-connection. PostgreSQL user's password.}
+\item{json}{"json varible" or json file. JSON need to indlude: \cr
+dbname      Character. Database name. \cr
+host        Character. Host. \cr
+port        Numeric. Port number. \cr \cr
+And could indlude: \cr \cr
+user        Character. PostgreSQL username. \cr
+password    Character. PostgreSQL user's password. \cr}
 }
 \value{
 Table with all words existing in source data base.

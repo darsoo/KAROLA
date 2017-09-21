@@ -4,27 +4,19 @@
 \alias{create_table_with_count_words}
 \title{Create table with count all words in analyzing abstracts.}
 \usage{
-create_table_with_count_words(lemma_table = "new_table", dbname = "medline",
-  host = "localhost", port = 5432, user = "", password = "",
+create_table_with_count_words(lemma_table = "new_table", json,
   first_analyzed_date = "2000-01-01", last_analyzed_date = "2016-12-01")
 }
 \arguments{
 \item{lemma_table}{Character. Name of source table or table from \code{\link{create_database}}.}
 
-\item{dbname}{Character. Information about PostgreSQL database
-connection. Database name.}
-
-\item{host}{Character. Information about PostgreSQL database
-connection. Host.}
-
-\item{port}{Integer. Information about PostgreSQL database connection.
-Port number.}
-
-\item{user}{Character. Information about PostgreSQL database
-connection. PostgreSQL username.}
-
-\item{password}{Character. Information about PostgreSQL database
-connection. PostgreSQL user's password.}
+\item{json}{"json varible" or json file. JSON need to indlude: \cr
+\code{dbname}      Character. Database name. \cr
+\code{host}        Character. Host. \cr
+\code{port}        Numeric. Port number. \cr \cr
+And could indlude: \cr \cr
+\code{user}        Character. PostgreSQL username. \cr
+\code{password}    Character. PostgreSQL user's password. \cr}
 
 \item{first_analyzed_date}{Date : YYYY-MM-DD. Month to start analysis}
 

@@ -12,37 +12,41 @@
 #'   is available on site:
 #'   \url{http://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html}.
 #' @param lemma_table Character. Name of table which will be created.
-#' @param dbname      Character. Information about PostgreSQL database
-#'   connection. Database name.
-#' @param host        Character. Information about PostgreSQL database
-#'   connection. Host.
-#' @param port        Numeric. Information about PostgreSQL database connection.
-#'   Port number.
-#' @param user        Character. Information about PostgreSQL database
-#'   connection. PostgreSQL username.
-#' @param password    Character. Information about PostgreSQL database
-#'   connection. PostgreSQL user's password.
+#' @param json    "json varible" or json file. JSON need to indlude: \cr
+#' dbname      Character. Database name. \cr
+#' host        Character. Host. \cr
+#' port        Numeric. Port number. \cr \cr
+#' And could indlude: \cr \cr
+#' user        Character. PostgreSQL username. \cr
+#' password    Character. PostgreSQL user's password. \cr
 #' @return There is no output. \cr
 #' This function create table in postgres with abstracts which include \code{word}.
 #' @importFrom DBI dbDriver
 #' @import RPostgreSQL
 #' @import getPass
+#' @import jsonlite
 #' @export
 #' @examples
 #' #create_database("cancer_NN")
 create_database <- function(word,
                             lemma_table = "new_table",
-                            dbname = "medline",
-                            host = "localhost",
-                            port = 5432,
-                            user = "",
-                            password = "") {
+                            json) {
+    # check param class
+    json <- fromJSON(json)
+    dbname = json$dbname
+    host = json$host
+    port = json$port
+    user = json$user
+    password = json$password
+    if (is.null(user)) user <- getPass(msg = "write postges username", noblank = T)
+    if (is.null(password)) password <- getPass(msg = paste0("write password for ",user), noblank = T)
+
     # check param class
     if (class(word) != "character") stop("param class error")
     if (class(lemma_table) != "character") stop("param class error")
     if (class(dbname) != "character") stop("param class error")
     if (class(host) != "character") stop("param class error")
-    if (class(port) != "numeric") stop("param class error")
+    if (class(port) != "integer") stop("param class error")
     if (user == "") user <- getPass(msg = "write postges username", noblank = T)
     if (password == "") password <- getPass(msg = paste0("write password for ",user), noblank = T)
     if (class(user) != "character") stop("param class error")

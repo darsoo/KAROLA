@@ -4,8 +4,7 @@
 \alias{create_database}
 \title{create_database}
 \usage{
-create_database(word, lemma_table = "new_table", dbname = "medline",
-  host = "localhost", port = 5432, user = "", password = "")
+create_database(word, lemma_table = "new_table", json)
 }
 \arguments{
 \item{word}{Character. Word which is analyzing.Its nesesary to add
@@ -15,20 +14,13 @@ is available on site:
 
 \item{lemma_table}{Character. Name of table which will be created.}
 
-\item{dbname}{Character. Information about PostgreSQL database
-connection. Database name.}
-
-\item{host}{Character. Information about PostgreSQL database
-connection. Host.}
-
-\item{port}{Numeric. Information about PostgreSQL database connection.
-Port number.}
-
-\item{user}{Character. Information about PostgreSQL database
-connection. PostgreSQL username.}
-
-\item{password}{Character. Information about PostgreSQL database
-connection. PostgreSQL user's password.}
+\item{json}{"json varible" or json file. JSON need to indlude: \cr
+dbname      Character. Database name. \cr
+host        Character. Host. \cr
+port        Numeric. Port number. \cr \cr
+And could indlude: \cr \cr
+user        Character. PostgreSQL username. \cr
+password    Character. PostgreSQL user's password. \cr}
 }
 \value{
 There is no output. \cr

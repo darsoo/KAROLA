@@ -10,7 +10,7 @@ create_test_data_base <- function(json){
     connection <- RPostgreSQL::dbConnect(drv, dbname = dbname,
                                          host = host, port = port,
                                          user = user, password = password)
-    query <- paste0("CREATE DATABASE test_data_base WITH TEMPLATE ",dbname," OWNER ",user,";")
+    query <- paste0("CREATE DATABASE test_data_base WITH TEMPLATE ",dbname,";")
     dbGetQuery(connection, query)
     RPostgreSQL::dbDisconnect(connection)
     DBI::dbUnloadDriver(drv)

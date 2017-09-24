@@ -3,6 +3,12 @@
 library(KAROLA)
 context("create_database")
 
+client <- docker::docker$from_env()
+client$containers$run(image = "karola-test-database",
+                      #name = "k-test-db",
+                      ports=list('5432'='5430'),
+                      detach = T)
+
 #drop_test_data_base(json = "test.json")
 create_test_data_base(json = "test.json")
 

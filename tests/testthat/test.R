@@ -3,11 +3,18 @@
 library(KAROLA)
 context("create_database")
 
-client <- docker::docker$from_env()
-client$containers$run(image = "karola-test-database",
-                      #name = "k-test-db",
-                      ports=list('5432'='5430'),
-                      detach = T)
+system("docker run --name ktd -p 5430:5432 -d daroso/karola-test-database:0.9002")
+
+for(time in 0:5){
+    print(paste("Please wait ",6-time," sec."))
+    Sys.sleep(1)
+}
+
+# client <- docker::docker$from_env()
+# client$create_container(image = "karola-test-database",
+#                       #name = "k-test-db",
+#                       ports=list('5432'='5430'),
+#                       detach = T)
 
 #drop_test_data_base(json = "test.json")
 create_test_data_base(json = "test.json")
@@ -116,3 +123,5 @@ test_that("test dictionary data frame param", {
 drop_test_data_base(json = "test.json")
 
 ##############################################################################################################
+system("docker stop ktd")
+system("docker rm ktd")

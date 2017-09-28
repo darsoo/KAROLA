@@ -10,6 +10,7 @@ jsonFile <- file.path(system.file(package="KAROLA"),"extdata","test.json")
 dictionary <- download_dictionary(json = jsonFile)
 
 test_that("test dictionary data frame param", {
+    check_docker()
     expect_is(dictionary, "data.frame")
     expect_equal(nrow(dictionary), 10307)
     expect_equal(ncol(dictionary), 2)

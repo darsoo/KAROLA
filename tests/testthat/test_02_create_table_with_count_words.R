@@ -25,6 +25,7 @@ arguments <- list(lemma_table = "test_table",
 function_output <- do.call(create_table_with_count_words, arguments)
 
 test_that("background info", {
+    check_docker()
     expect_equal(function_output[2,1], "0")
     expect_equal(function_output[2,2], 175)
     expect_equal(nrow(function_output), 2057)
@@ -38,6 +39,7 @@ function_output <- ""
 function_output <- do.call(create_table_with_count_words, use_argument)
 
 test_that("test for fix bug - 1", {
+    check_docker()
     expect_is(function_output, "data.frame")
     expect_equal(nrow(function_output), 915)
     expect_equal(ncol(function_output), 3)
@@ -50,6 +52,7 @@ function_output <- ""
 function_output <- do.call(create_table_with_count_words, use_argument)
 
 test_that("test for fix bug - 2", {
+    check_docker()
     expect_is(function_output, "data.frame")
     expect_equal(nrow(function_output), 1043)
     expect_equal(ncol(function_output), 3)

@@ -33,3 +33,11 @@ drop_test_data_base <- function(json){
     RPostgreSQL::dbDisconnect(connection)
     DBI::dbUnloadDriver(drv)
 }
+
+check_docker <- function() {
+KAROLA_container_id <- system("docker ps -q -f name=KarolaTestDatabase", intern = T)
+    if (length(KAROLA_container_id) == 0) {
+        testthat::skip("postgers database not available")
+        }
+    }
+

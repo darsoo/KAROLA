@@ -15,6 +15,7 @@ arguments <- list(
     json = jsonFile
 )
 test_that("make table with good word",{
+    check_docker()
     expect_null(do.call(create_database, arguments))
 })
 #####
@@ -24,6 +25,7 @@ arguments <- list(
     json = jsonFile
 )
 test_that("make table with wrong word",{
+    check_docker()
     expect_error(do.call(create_database, arguments),paste0('given word: "' ,arguments$word ,'" does not exist in database'))
 })
 #####

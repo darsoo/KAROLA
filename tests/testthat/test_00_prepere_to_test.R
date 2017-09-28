@@ -19,6 +19,7 @@ while(log_from_karola_docker[length(log_from_karola_docker)] != "LOG:  autovacuu
     print(paste0("Proces starts ",time_from_ran," second ago."))
     log_from_karola_docker <- system2("docker","logs KarolaTestDatabase",stdout = TRUE,stderr = TRUE)
     Sys.sleep(1)
+    if(time_from_ran > 30) break("Cannot finish load postgres database.")
 }
 print("Postgres database was loaded.")
 Sys.sleep(3)

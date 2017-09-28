@@ -9,11 +9,31 @@ jsonFile <- file.path(system.file(package="KAROLA"),"extdata","test.json")
 create_test_data_base(json = jsonFile)
 
 #####
+
 arguments <- list(word = "cancer_NN",
                   lemma_table = "test_table",
                   json = jsonFile)
 
 do.call(create_database, arguments)
+
+#####
+
+use_argument <- arguments
+use_argument["word"] <- 3
+
+test_that("test param class error - create_table_with_count_words(word)", {
+    expect_error(do.call(create_database, use_argument), "param class error")
+})
+
+#####
+
+use_argument <- arguments
+use_argument["lemma_table"] <- 3
+
+test_that("test param class error - create_table_with_count_words(lemma_table)", {
+    expect_error(do.call(create_database, use_argument), "param class error")
+})
+
 #####
 
 arguments <- list(lemma_table = "test_table",

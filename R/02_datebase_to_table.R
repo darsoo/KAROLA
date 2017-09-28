@@ -45,8 +45,8 @@ create_table_with_count_words <- function(lemma_table = "new_table", #table from
     if (class(port) != "integer") stop("param class error-p")
     if (class(user) != "character") stop("param class error")
     if (class(password) != "character") stop("param class error")
-    if (class(try(as.Date(first_analyzed_date))) != "Date") stop("param class error")
-    if (class(try(as.Date(last_analyzed_date))) != "Date") stop("param class error")
+    if (class(try(as.Date(first_analyzed_date),silent = T)) != "Date") stop("param class error")
+    if (class(try(as.Date(last_analyzed_date),silent = T)) != "Date") stop("param class error")
 
     # create a connection
         drv <- DBI::dbDriver("PostgreSQL")
@@ -247,8 +247,8 @@ create_data_to_visualization <- function(word,
     if (class(lemma_table) != "character") stop("param class error")
     if (class(table_exist) != "logical") stop("param class error")
     if (class(output_file) != "character") stop("param class error")
-    if (class(try(as.Date(first_analyzed_date))) != "Date") stop("param class error")
-    if (class(try(as.Date(last_analyzed_date))) != "Date") stop("param class error")
+    if (class(try(as.Date(first_analyzed_date),silent = T)) != "Date") stop("param class error")
+    if (class(try(as.Date(last_analyzed_date),silent = T)) != "Date") stop("param class error")
     if (class(dictionary_exist) != "logical") stop("param class error")
     if (class(save_to_file) != "logical") stop("param class error")
 

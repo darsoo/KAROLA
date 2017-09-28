@@ -3,12 +3,20 @@
 library(KAROLA)
 context("create_database")
 
-system("docker run --name ktd -p 5430:5432 -d daroso/karola-test-database:0.9002")
+KAROLA_container_id <- system("sudo docker ps -q -f name=KarolaTestDatabase", intern = T)
+if (length(KAROLA_container_id) > 0){
+    try(system("docker stop KarolaTestDatabase"))
+    try(system("docker rm KarolaTestDatabase"))
+}
+
+system("docker run --name KarolaTestDatabase -p 5430:5432 -d daroso/karola-test-database:0.9002")
 
 for(time in 0:5){
     print(paste("Please wait ",6-time," sec."))
     Sys.sleep(1)
 }
+
+jsonFile <- file.path(system.file(package="KAROLA"),"extdata","test.json")
 
 # client <- docker::docker$from_env()
 # client$create_container(image = "karola-test-database",
@@ -16,14 +24,14 @@ for(time in 0:5){
 #                       ports=list('5432'='5430'),
 #                       detach = T)
 
-#drop_test_data_base(json = "test.json")
-create_test_data_base(json = "test.json")
+#drop_test_data_base(json = jsonFile:)
+create_test_data_base(json = jsonFile)
 
 #####
 arguments <- list(
     word = "cancer_NN",
     lemma_table = "test_new_table_1",
-    json = "test.json"
+    json = jsonFile
 )
 test_that("make table with good word",{
     expect_null(do.call(create_database, arguments))
@@ -32,31 +40,31 @@ test_that("make table with good word",{
 arguments <- list(
     word = "wrong_word",
     lemma_table = "test_new_table_2",
-    json = "test.json"
+    json = jsonFile
 )
 test_that("make table with wrong word",{
     expect_error(do.call(create_database, arguments),paste0('given word: "' ,arguments$word ,'" does not exist in database'))
 })
 #####
-drop_test_data_base(json = "test.json")
+drop_test_data_base(json = jsonFile)
 ##############################################################################################################
 # test_create_table_with_count_words.R
 
 library(KAROLA)
 context("create_table_with_count_words")
 
-create_test_data_base(json = "test.json")
+create_test_data_base(json = jsonFile)
 
 #####
 arguments <- list(word = "cancer_NN",
                   lemma_table = "test_table",
-                  json = "test.json")
+                  json = jsonFile)
 
 do.call(create_database, arguments)
 #####
 
 arguments <- list(lemma_table = "test_table",
-                  json = "test.json",
+                  json = jsonFile,
                   first_analyzed_date = "2016-01-01",
                   last_analyzed_date = "2016-12-01")
 
@@ -109,7 +117,7 @@ test_that("test for fix bug - 2", {
 ##############################################################################################################
 # test_download_dictionary.R
 
-dictionary <- download_dictionary(json = "test.json")
+dictionary <- download_dictionary(json = jsonFile)
 
 test_that("test dictionary data frame param", {
     expect_is(dictionary, "data.frame")
@@ -120,8 +128,8 @@ test_that("test dictionary data frame param", {
 
 ##############################################################################################################
 
-drop_test_data_base(json = "test.json")
+drop_test_data_base(json = jsonFile)
 
 ##############################################################################################################
-system("docker stop ktd")
-system("docker rm ktd")
+system("docker stop KarolaTestDatabase")
+system("docker rm KarolaTestDatabase")

@@ -108,7 +108,7 @@ create_table_with_count_words <-
                     date_id, "'))
                     GROUP by word_id
                     ORDER by word_id;")
-            print(paste("Now ", date_id, " is analyzing"))
+            print(paste("Now ", date_id, " is being analyzed"))
             df_words_count_in_month <-
                 RPostgreSQL::dbGetQuery(connection, query_words_count_in_month)
             # add month to yearly df
@@ -234,9 +234,9 @@ download_dictionary <- function(json){
 #' @export
 #' @examples
 #' \dontrun{
-#' preper_data_to_ANNA()
+#' prepere_data_to_ANNA()
 #' }
-preper_data_to_ANNA <-
+prepere_data_to_ANNA <-
     function(input = "input",
              output_file = "output_file",
              dictionary = "dictionary",
@@ -363,7 +363,7 @@ create_data_to_visualization <- function(word,
                 stringsAsFactors = F
             )
     }
-    preper_data_to_ANNA(input = table_with_count_words,
+    prepere_data_to_ANNA(input = table_with_count_words,
                         dictionary = dictionary,
                         save_to_file = save_to_file,
                         output_file = output_file)

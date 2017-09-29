@@ -128,10 +128,11 @@ create_table_with_count_words <-
                     Year <- 1800 + (i %/% 12)
             # sum all month in year and add new column in output df
                 Year_as_character <- as.character(Year)
-                if ((i %% 12 == 0 &
-                     i == first_analyzed_new_date) |
-                    (i %% 12 == 1 & i == last_analyzed_new_date)) {
-                    df_for_month_in_year[, Year_as_character] <-
+                if ( (i %% 12 == 0 &
+                      i == first_analyzed_new_date) |
+                     (i %% 12 == 1 &
+                      i == last_analyzed_new_date)) {
+                     df_for_month_in_year[, Year_as_character] <-
                         df_for_month_in_year[, 2]
                 } else {
                     df_for_month_in_year[, Year_as_character] <-

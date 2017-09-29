@@ -89,15 +89,6 @@ test_that("test param class error - create_data_to_vis...(dictionary_exist)", {
 
 #####
 
-# use_argument <- arguments
-# use_argument["json"] <- 3
-#
-# test_that("test param class error - create_data_to_visualization(json)", {
-#     expect_error(do.call(create_data_to_visualization, use_argument), "param class error")
-# })
-
-#####
-
 use_argument <- arguments
 use_argument["save_to_file"] <- 3
 

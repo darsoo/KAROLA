@@ -74,14 +74,3 @@ test_that("test for fix bug - 2", {
     expect_equal(ncol(function_output), 3)
 })
 #####
-
-# use_argument <- arguments
-# use_argument["json"] <- "test.json-wou/wop"
-# use_argument["first_analyzed_date"] <- "2015-12-01"
-# use_argument["last_analyzed_date"] <- "2016-02-01"
-# function_output <- ""
-# function_output <- do.call(create_table_with_count_words, use_argument)
-#
-# test_that("test for fix bug - 1", {
-#     expect_is(function_output, "data.frame")
-# })

@@ -5,7 +5,6 @@ context("create_database")
 
 json_file <- file.path(system.file(package = "KAROLA"), "extdata", "test.json")
 
-#drop_test_data_base(json = json_file)
 try(create_test_data_base(json = json_file), silent = T)
 
 
@@ -29,16 +28,6 @@ use_argument["lemma_table"] <- 3
 test_that("test param class error - create_database(lemma_table)", {
     expect_error(do.call(create_database, use_argument), "param class error")
 })
-
-#####
-
-# use_argument <- arguments
-# use_argument["json"] <- 3
-#
-# test_that("test param class error - create_database(json)", {
-#     expect_error(do.call(create_database, use_argument), "param class error")
-# })
-
 
 #####
 arguments <- list(

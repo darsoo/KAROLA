@@ -29,5 +29,7 @@ Table with count words from \code{lemma_table}.
 Create table with count all words in analyzing abstracts.
 }
 \examples{
-#create_table_with_count_words("new_table")
+\dontrun{
+create_table_with_count_words("new_table")
+}
 }

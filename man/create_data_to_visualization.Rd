@@ -49,6 +49,3 @@ Table with count words in every time interval (default - year) in
 \description{
 Opis funkcji
 }
-\examples{
-#create_data_to_visualization()
-}

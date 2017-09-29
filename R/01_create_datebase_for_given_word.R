@@ -34,18 +34,18 @@ create_database <- function(word,
                             lemma_table = "new_table",
                             json) {
     # check param class
-    json <- fromJSON(json)
+    json <- jsonlite::fromJSON(json)
     dbname <- json$dbname
     host <- json$host
     port <- json$port
     user <- json$user
     password <- json$password
     if (is.null(user)) {
-        user <- getPass(msg = "write postges username", noblank = T)
+        user <- getPass::getPass(msg = "write postges username", noblank = T)
     }
     if (is.null(password)) {
         password <-
-            getPass(msg = paste0("write password for ", user),
+            getPass::getPass(msg = paste0("write password for ", user),
                     noblank = T)
     }
 
@@ -62,11 +62,12 @@ create_database <- function(word,
         stop("param class error")
     if (user == "") {
         user <-
-            getPass(msg = "write postges username", noblank = T)
+            getPass::getPass(msg = "write postges username", noblank = T)
     }
     if (password == "") {
         password <-
-            getPass(msg = paste0("write password for ", user), noblank = T)
+            getPass::getPass(msg = paste0("write password for ", user),
+                             noblank = T)
     }
     if (class(user) != "character")
         stop("param class error")

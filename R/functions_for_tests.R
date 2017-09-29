@@ -1,5 +1,5 @@
 create_test_data_base <- function(json) {
-    json <- fromJSON(json)
+    json <- jsonlite::fromJSON(json)
     dbname <- json$source_dbname
     host <- json$host
     port <- json$port
@@ -17,13 +17,13 @@ create_test_data_base <- function(json) {
     )
     query <-
         paste0("CREATE DATABASE test_data_base WITH TEMPLATE ", dbname, ";")
-    dbGetQuery(connection, query)
+    RPostgreSQL::dbGetQuery(connection, query)
     RPostgreSQL::dbDisconnect(connection)
     DBI::dbUnloadDriver(drv)
 }
 
 drop_test_data_base <- function(json) {
-    json <- fromJSON(json)
+    json <- jsonlite::fromJSON(json)
     dbname <- json$source_dbname
     host <- json$host
     port <- json$port
@@ -40,7 +40,7 @@ drop_test_data_base <- function(json) {
         password = password
     )
     query <- "DROP DATABASE IF EXISTS test_data_base;"
-    dbGetQuery(connection, query)
+    RPostgreSQL::dbGetQuery(connection, query)
     RPostgreSQL::dbDisconnect(connection)
     DBI::dbUnloadDriver(drv)
 }

@@ -20,24 +20,35 @@
 #' @import getPass
 #' @export
 #' @examples
-#' #create_table_with_count_words("new_table")
+#' \dontrun{
+#' create_table_with_count_words("new_table")
+#' }
 
 
-create_table_with_count_words <- function(lemma_table = "new_table", #table from '01_cerate_...'
-                                          json,
-                                          #date input format "YYYY-MM-01"
-                                          first_analyzed_date = "2000-01-01",
-                                          last_analyzed_date = "2016-12-01"
-                                          ){
+create_table_with_count_words <-
+    function(lemma_table = "new_table",
+             #table from '01_cerate_...'
+             json,
+             #date input format "YYYY-MM-01"
+             first_analyzed_date = "2000-01-01",
+             last_analyzed_date = "2016-12-01") {
+
     # check param class
-    json <- fromJSON(json)
+    json <- jsonlite::fromJSON(json)
     dbname <- json$dbname
     host <- json$host
     port <- json$port
     user <- json$user
     password <- json$password
-    if (is.null(user)) user <- getPass(msg = "write postges username", noblank = T)
-    if (is.null(password)) password <- getPass(msg = paste0("write password for ",user), noblank = T)
+    if (is.null(user)) {
+        user <-
+            getPass::getPass(msg = "write postges username", noblank = T)
+    }
+    if (is.null(password)) {
+        password <-
+            getPass::getPass(msg = paste0("write password for ", user),
+                    noblank = T)
+    }
 
     if (class(lemma_table) != "character") stop("param class error")
     if (class(dbname) != "character") stop("param class error -db")
@@ -45,8 +56,12 @@ create_table_with_count_words <- function(lemma_table = "new_table", #table from
     if (class(port) != "integer") stop("param class error-p")
     if (class(user) != "character") stop("param class error")
     if (class(password) != "character") stop("param class error")
-    if (class(try(as.Date(first_analyzed_date),silent = T)) != "Date") stop("param class error")
-    if (class(try(as.Date(last_analyzed_date),silent = T)) != "Date") stop("param class error")
+    if (class(try(as.Date(first_analyzed_date), silent = T)
+    ) != "Date")
+        stop("param class error")
+    if (class(try(as.Date(last_analyzed_date), silent = T)
+    ) != "Date")
+        stop("param class error")
 
     # create a connection
         drv <- DBI::dbDriver("PostgreSQL")
@@ -58,47 +73,83 @@ create_table_with_count_words <- function(lemma_table = "new_table", #table from
 
     # break function if table doesn't exist
         if (table_exist_check == F) {
-            output <- print(paste0("Table ",lemma_table," doesn't exist. Please change table name"))
-            stop(output ,call. = T)
+            output <-
+                print(paste0(
+                    "Table ",
+                    lemma_table,
+                    " doesn't exist. Please change table name"
+                ))
+            stop(output, call. = T)
         }
 
     # download date from postgreSQL
         date_query <- paste0("SELECT * FROM date_table")
         date_table <- RPostgreSQL::dbGetQuery(connection, date_query)
     # create new_date - month from 1800-01-01
-        first_analyzed_new_date <- date_table[date_table["date"] == first_analyzed_date,"new_date"]
-        last_analyzed_new_date <- date_table[date_table["date"] == last_analyzed_date,"new_date"]
+        first_analyzed_new_date <-
+            date_table[date_table["date"] == first_analyzed_date, "new_date"]
+        last_analyzed_new_date <-
+            date_table[date_table["date"] == last_analyzed_date, "new_date"]
     # create 2 empty df with given parameter
-        df_for_month_in_year <- data.frame(word_id="", stringsAsFactors=FALSE)
-        output_df <- data.frame(word_id="", stringsAsFactors=FALSE)
+        df_for_month_in_year <-
+            data.frame(word_id = "", stringsAsFactors = FALSE)
+        output_df <-
+            data.frame(word_id = "", stringsAsFactors = FALSE)
     # for loop month by month
-        for(i in first_analyzed_new_date:last_analyzed_new_date){
+        for (i in first_analyzed_new_date:last_analyzed_new_date){
         # load both data format
-            date_id <- date_table[date_table["new_date"] == i,"date"]
+            date_id <- date_table[date_table["new_date"] == i, "date"]
         # count words in the given time interval
-            query_words_count_in_month <- paste0("SELECT unnest(words) AS word_id, count(unnest(words)) AS c", i ,"
-            FROM ", lemma_table, " WHERE pmid IN
-            (SELECT pmid FROM date WHERE (date = '",date_id,"'))
-            GROUP by word_id
-            ORDER by word_id;")
-            print(paste("Now ",date_id," is analyzing"))
-            df_words_count_in_month <- RPostgreSQL::dbGetQuery(connection, query_words_count_in_month)
-        # add month to yearly df
-            df_for_month_in_year <- merge(df_for_month_in_year, df_words_count_in_month, by = "word_id", all=T, stringsAsFactors=FALSE)
-        # conditional instruction checking Year or end of data
+            query_words_count_in_month <-
+                paste0(
+                    "SELECT unnest(words) AS word_id, count(unnest(words)) AS c",
+                    i, " FROM ", lemma_table,
+                    " WHERE pmid IN (SELECT pmid FROM date WHERE (date = '",
+                    date_id, "'))
+                    GROUP by word_id
+                    ORDER by word_id;")
+            print(paste("Now ", date_id, " is analyzing"))
+            df_words_count_in_month <-
+                RPostgreSQL::dbGetQuery(connection, query_words_count_in_month)
+            # add month to yearly df
+            df_for_month_in_year <-
+                merge(
+                    df_for_month_in_year,
+                    df_words_count_in_month,
+                    by = "word_id",
+                    all = T,
+                    stringsAsFactors = FALSE
+                )
+            # conditional instruction checking Year or end of data
             if (i %% 12 == 0 | i == last_analyzed_new_date){
-                Year <- 1800 + (i%/%12) - 1
+                Year <- 1800 + (i %/% 12) - 1
             # if last date is December it's necessary to make correction
-                if (i %% 12 != 0){Year <- 1800 + (i%/%12)}
+                if (i %% 12 != 0)
+                    Year <- 1800 + (i %/% 12)
             # sum all month in year and add new column in output df
                 Year_as_character <- as.character(Year)
-                if ((i %% 12 == 0 & i == first_analyzed_new_date)|(i %% 12 == 1 & i == last_analyzed_new_date)){
-                    df_for_month_in_year[,Year_as_character] <- df_for_month_in_year[,2]
-                } else df_for_month_in_year[,Year_as_character] <- rowSums(df_for_month_in_year[, c(2:length(df_for_month_in_year))],na.rm = T)
-                df_year_summary <- df_for_month_in_year[df_for_month_in_year[,Year_as_character] > 1, c(1,length(df_for_month_in_year))]
-                output_df <- merge(output_df, df_year_summary, by = "word_id", all=T, stringsAsFactors=FALSE )
-            # empty yearly df
-                df_for_month_in_year <- data.frame(word_id="", stringsAsFactors=FALSE)
+                if ((i %% 12 == 0 &
+                     i == first_analyzed_new_date) |
+                    (i %% 12 == 1 & i == last_analyzed_new_date)) {
+                    df_for_month_in_year[, Year_as_character] <-
+                        df_for_month_in_year[, 2]
+                } else {
+                    df_for_month_in_year[, Year_as_character] <-
+                        rowSums(df_for_month_in_year[, c(2:length(df_for_month_in_year))], na.rm = T)
+                }
+                df_year_summary <-
+                    df_for_month_in_year[df_for_month_in_year[, Year_as_character] > 1, c(1, length(df_for_month_in_year))]
+                output_df <-
+                    merge(
+                        output_df,
+                        df_year_summary,
+                        by = "word_id",
+                        all = T,
+                        stringsAsFactors = FALSE
+                    )
+                # empty yearly df
+                df_for_month_in_year <-
+                    data.frame(word_id = "", stringsAsFactors = FALSE)
             }
         }
     RPostgreSQL::dbDisconnect(connection)
@@ -125,24 +176,38 @@ create_table_with_count_words <- function(lemma_table = "new_table", #table from
 #' @import jsonlite
 #' @export
 #' @examples
-#' #download_dictionary()
+#' \dontrun{
+#' download_dictionary()
+#' }
 download_dictionary <- function(json){
 
-    json <- fromJSON(json)
-    dbname = json$dbname
-    host = json$host
-    port = json$port
-    user = json$user
-    password = json$password
+    json <- jsonlite::fromJSON(json)
+    dbname <- json$dbname
+    host <- json$host
+    port <- json$port
+    user <- json$user
+    password <- json$password
 
     # check param class
-    if (class(dbname) != "character") stop("param class error")
-    if (class(host) != "character") stop("param class error")
-    if (class(port) != "integer") stop("param class error")
-    if (user == "") user <- getPass(msg = "write postges username", noblank = T)
-    if (password == "") password <- getPass(msg = paste0("write password for ",user), noblank = T)
-    if (class(user) != "character") stop("param class error")
-    if (class(password) != "character") stop("param class error")
+    if (class(dbname) != "character")
+        stop("param class error")
+    if (class(host) != "character")
+        stop("param class error")
+    if (class(port) != "integer")
+        stop("param class error")
+    if (user == "") {
+        user <-
+            getPass::getPass(msg = "write postges username", noblank = T)
+    }
+    if (password == "") {
+        password <-
+            getPass::getPass(msg = paste0("write password for ", user),
+                    noblank = T)
+    }
+    if (class(user) != "character")
+        stop("param class error")
+    if (class(password) != "character")
+        stop("param class error")
 
     # create a connection
     drv <- DBI::dbDriver("PostgreSQL")
@@ -168,7 +233,9 @@ download_dictionary <- function(json){
 #' @return Table with count words in every time interval (default - year)
 #' @export
 #' @examples
-#' #preper_data_to_ANNA()
+#' \dontrun{
+#' preper_data_to_ANNA()
+#' }
 preper_data_to_ANNA <-
     function(input = "input",
              output_file = "output_file",
@@ -185,7 +252,7 @@ preper_data_to_ANNA <-
         output <- output[, c(1, length(output), 2:(length(output) - 1))]
         output <- output[2:nrow(output), ]
         output[is.na(output)] <- 0
-        if(save_to_file == T){
+        if (save_to_file == T){
             utils::write.table(output, file = output_file, sep = "\t")
         }
         return(output)
@@ -223,8 +290,6 @@ preper_data_to_ANNA <-
 #' @import getPass
 #' @import jsonlite
 #' @export
-#' @examples
-#' #create_data_to_visualization()
 
 create_data_to_visualization <- function(word,
                                          lemma_table,
@@ -235,22 +300,39 @@ create_data_to_visualization <- function(word,
                                          dictionary_exist = T,
                                          json,
                                          save_to_file = T){
-    json <- fromJSON(json)
-    user = json$user
-    password = json$password
-    if (is.null(user)) user <- getPass(msg = "write postges username", noblank = T)
-    if (is.null(password)) password <- getPass(msg = paste0("write password for ",user), noblank = T)
-    json <- toJSON(json)
+    json <- jsonlite::fromJSON(json)
+    user <- json$user
+    password <- json$password
+    if (is.null(user)) {
+        user <-
+            getPass::getPass(msg = "write postges username", noblank = T)
+    }
+    if (is.null(password)) {
+        password <-
+            getPass::getPass(msg = paste0("write password for ", user),
+                    noblank = T)
+    }
+    json <- jsonlite::toJSON(json)
 
     # check param class
-    if (class(word) != "character") stop("param class error")
-    if (class(lemma_table) != "character") stop("param class error")
-    if (class(table_exist) != "logical") stop("param class error")
-    if (class(output_file) != "character") stop("param class error")
-    if (class(try(as.Date(first_analyzed_date),silent = T)) != "Date") stop("param class error")
-    if (class(try(as.Date(last_analyzed_date),silent = T)) != "Date") stop("param class error")
-    if (class(dictionary_exist) != "logical") stop("param class error")
-    if (class(save_to_file) != "logical") stop("param class error")
+    if (class(word) != "character")
+        stop("param class error")
+    if (class(lemma_table) != "character")
+        stop("param class error")
+    if (class(table_exist) != "logical")
+        stop("param class error")
+    if (class(output_file) != "character")
+        stop("param class error")
+    if (class(try(as.Date(first_analyzed_date), silent = T)
+    ) != "Date")
+        stop("param class error")
+    if (class(try(as.Date(last_analyzed_date), silent = T)
+    ) != "Date")
+        stop("param class error")
+    if (class(dictionary_exist) != "logical")
+        stop("param class error")
+    if (class(save_to_file) != "logical")
+        stop("param class error")
 
     #
     if (table_exist == F) {

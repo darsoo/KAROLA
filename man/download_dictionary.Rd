@@ -22,5 +22,7 @@ Table with all words existing in source data base.
 Create table with dictionary of all words.
 }
 \examples{
-#download_dictionary()
+\dontrun{
+download_dictionary()
+}
 }

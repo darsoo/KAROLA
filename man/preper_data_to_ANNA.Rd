@@ -24,5 +24,7 @@ Table with count words in every time interval (default - year)
 Parse and clearing data to visualisation in shiny-app ANNA.
 }
 \examples{
-#preper_data_to_ANNA()
+\dontrun{
+preper_data_to_ANNA()
+}
 }

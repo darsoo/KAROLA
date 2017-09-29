@@ -33,5 +33,7 @@ library - word_id:INTEGER, word:TEXT \cr
 abstracts - pmid:INTEGER, words:INTEGER[] \cr
 }
 \examples{
-#create_database("cancer_NN")
+\dontrun{
+create_database("cancer_NN")
+}
 }

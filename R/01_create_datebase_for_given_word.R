@@ -27,30 +27,51 @@
 #' @import jsonlite
 #' @export
 #' @examples
-#' #create_database("cancer_NN")
+#' \dontrun{
+#' create_database("cancer_NN")
+#' }
 create_database <- function(word,
                             lemma_table = "new_table",
                             json) {
     # check param class
     json <- fromJSON(json)
-    dbname = json$dbname
-    host = json$host
-    port = json$port
-    user = json$user
-    password = json$password
-    if (is.null(user)) user <- getPass(msg = "write postges username", noblank = T)
-    if (is.null(password)) password <- getPass(msg = paste0("write password for ",user), noblank = T)
+    dbname <- json$dbname
+    host <- json$host
+    port <- json$port
+    user <- json$user
+    password <- json$password
+    if (is.null(user)) {
+        user <- getPass(msg = "write postges username", noblank = T)
+    }
+    if (is.null(password)) {
+        password <-
+            getPass(msg = paste0("write password for ", user),
+                    noblank = T)
+    }
 
     # check param class
-    if (class(word) != "character") stop("param class error")
-    if (class(lemma_table) != "character") stop("param class error")
-    if (class(dbname) != "character") stop("param class error")
-    if (class(host) != "character") stop("param class error")
-    if (class(port) != "integer") stop("param class error")
-    if (user == "") user <- getPass(msg = "write postges username", noblank = T)
-    if (password == "") password <- getPass(msg = paste0("write password for ",user), noblank = T)
-    if (class(user) != "character") stop("param class error")
-    if (class(password) != "character") stop("param class error")
+    if (class(word) != "character")
+        stop("param class error")
+    if (class(lemma_table) != "character")
+        stop("param class error")
+    if (class(dbname) != "character")
+        stop("param class error")
+    if (class(host) != "character")
+        stop("param class error")
+    if (class(port) != "integer")
+        stop("param class error")
+    if (user == "") {
+        user <-
+            getPass(msg = "write postges username", noblank = T)
+    }
+    if (password == "") {
+        password <-
+            getPass(msg = paste0("write password for ", user), noblank = T)
+    }
+    if (class(user) != "character")
+        stop("param class error")
+    if (class(password) != "character")
+        stop("param class error")
 
     # create a connection
     drv <- DBI::dbDriver("PostgreSQL")
@@ -73,7 +94,7 @@ create_database <- function(word,
                 lemma_table,
                 " already exist. Please change table name"
             ))
-        stop(output , call. = T)
+        stop(output, call. = T)
     }
     if (table_exist_check == F) {
         # download word-id from db
@@ -84,18 +105,16 @@ create_database <- function(word,
         # try to change word_id's classfrom data.frame to numeric
         try (word_id <- as.numeric(word_id))
         # create new table with PMID with given word
-        if(class(word_id) == "numeric" & length(word_id) != 0){
+        if (class(word_id) == "numeric" & length(word_id) != 0) {
             query_creat_table <-
-                paste0(
-                    "SELECT * INTO ",
-                    lemma_table,
-                    " FROM abstracts WHERE (",
-                    word_id,
-                    " = ANY(words));"
-                )
-        df_postgres <-
-            RPostgreSQL::dbGetQuery(connection, query_creat_table)
-        print(paste0("Table ", lemma_table, " successfully"))
+                paste0("SELECT * INTO ",
+                       lemma_table,
+                       " FROM abstracts WHERE (",
+                       word_id,
+                       " = ANY(words));")
+            df_postgres <-
+                RPostgreSQL::dbGetQuery(connection, query_creat_table)
+            print(paste0("Table ", lemma_table, " successfully"))
         } else{
             RPostgreSQL::dbDisconnect(connection)
             DBI::dbUnloadDriver(drv)

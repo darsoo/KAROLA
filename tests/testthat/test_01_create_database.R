@@ -3,15 +3,15 @@
 library(KAROLA)
 context("create_database")
 
-jsonFile <- file.path(system.file(package="KAROLA"),"extdata","test.json")
+json_file <- file.path(system.file(package = "KAROLA"), "extdata", "test.json")
 
-#drop_test_data_base(json = jsonFile:)
-create_test_data_base(json = jsonFile)
+#drop_test_data_base(json = json_file)
+try(create_test_data_base(json = json_file), silent = T)
 
 
 arguments <- list(word = "cancer_NN",
                   lemma_table = "new_table",
-                  json = jsonFile)
+                  json = json_file)
 #####
 
 use_argument <- arguments
@@ -44,9 +44,9 @@ test_that("test param class error - create_database(lemma_table)", {
 arguments <- list(
     word = "cancer_NN",
     lemma_table = "test_new_table_1",
-    json = jsonFile
+    json = json_file
 )
-test_that("make table with good word",{
+test_that("make table with good word", {
     check_docker()
     expect_null(do.call(create_database, arguments))
 })
@@ -54,11 +54,13 @@ test_that("make table with good word",{
 arguments <- list(
     word = "wrong_word",
     lemma_table = "test_new_table_2",
-    json = jsonFile
+    json = json_file
 )
-test_that("make table with wrong word",{
+test_that("make table with wrong word", {
     check_docker()
-    expect_error(do.call(create_database, arguments),paste0('given word: "' ,arguments$word ,'" does not exist in database'))
+    expect_error(
+        do.call(create_database, arguments),
+        paste0('given word: "', arguments$word, '" does not exist in database')
+    )
 })
 #####
-drop_test_data_base(json = jsonFile)

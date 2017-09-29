@@ -3,7 +3,7 @@
 library(KAROLA)
 context("create_data_to_visualization")
 
-jsonFile <- file.path(system.file(package="KAROLA"),"extdata","test.json")
+json_file <- file.path(system.file(package = "KAROLA"), "extdata", "test.json")
 
 arguments <- list(
     word = "cancer_NN",
@@ -13,7 +13,7 @@ arguments <- list(
     first_analyzed_date = "2000-01-01",
     last_analyzed_date = "2016-12-01",
     dictionary_exist = T,
-    json = jsonFile,
+    json = json_file,
     save_to_file = T
 )
 
@@ -22,8 +22,9 @@ arguments <- list(
 use_argument <- arguments
 use_argument["word"] <- 3
 
-test_that("test param class error - create_data_to_visualization(word)", {
-    expect_error(do.call(create_data_to_visualization, use_argument), "param class error")
+test_that("test param class error - create_data_to_vis...(word)", {
+    expect_error(do.call(create_data_to_visualization, use_argument),
+                 "param class error")
 })
 
 #####
@@ -31,8 +32,9 @@ test_that("test param class error - create_data_to_visualization(word)", {
 use_argument <- arguments
 use_argument["lemma_table"] <- 3
 
-test_that("test param class error - create_data_to_visualization(lemma_table)", {
-    expect_error(do.call(create_data_to_visualization, use_argument), "param class error")
+test_that("test param class error - create_data_to_vis...(lemma_table)", {
+    expect_error(do.call(create_data_to_visualization, use_argument),
+                 "param class error")
 })
 
 #####
@@ -40,8 +42,9 @@ test_that("test param class error - create_data_to_visualization(lemma_table)", 
 use_argument <- arguments
 use_argument["table_exist"] <- 3
 
-test_that("test param class error - create_data_to_visualization(table_exist)", {
-    expect_error(do.call(create_data_to_visualization, use_argument), "param class error")
+test_that("test param class error - create_data_to_vis...(table_exist)", {
+    expect_error(do.call(create_data_to_visualization, use_argument),
+                 "param class error")
 })
 
 #####
@@ -49,8 +52,9 @@ test_that("test param class error - create_data_to_visualization(table_exist)", 
 use_argument <- arguments
 use_argument["output_file"] <- 3
 
-test_that("test param class error - create_data_to_visualization(output_file)", {
-    expect_error(do.call(create_data_to_visualization, use_argument), "param class error")
+test_that("test param class error - create_data_to_vis...(output_file)", {
+    expect_error(do.call(create_data_to_visualization, use_argument),
+                 "param class error")
 })
 
 #####
@@ -58,8 +62,9 @@ test_that("test param class error - create_data_to_visualization(output_file)", 
 use_argument <- arguments
 use_argument["first_analyzed_date"] <- 3
 
-test_that("test param class error - create_data_to_visualization(first_analyzed_date)", {
-    expect_error(do.call(create_data_to_visualization, use_argument), "param class error")
+test_that("test param class error - create_data_to_vis...(first_a...)", {
+    expect_error(do.call(create_data_to_visualization, use_argument),
+                 "param class error")
 })
 
 #####
@@ -67,8 +72,9 @@ test_that("test param class error - create_data_to_visualization(first_analyzed_
 use_argument <- arguments
 use_argument["last_analyzed_date"] <- 3
 
-test_that("test param class error - create_data_to_visualization(last_analyzed_date)", {
-    expect_error(do.call(create_data_to_visualization, use_argument), "param class error")
+test_that("test param class error - create_data_to_vis...(last_a...)", {
+    expect_error(do.call(create_data_to_visualization, use_argument),
+                 "param class error")
 })
 
 #####
@@ -76,8 +82,9 @@ test_that("test param class error - create_data_to_visualization(last_analyzed_d
 use_argument <- arguments
 use_argument["dictionary_exist"] <- 3
 
-test_that("test param class error - create_data_to_visualization(dictionary_exist)", {
-    expect_error(do.call(create_data_to_visualization, use_argument), "param class error")
+test_that("test param class error - create_data_to_vis...(dictionary_exist)", {
+    expect_error(do.call(create_data_to_visualization, use_argument),
+                 "param class error")
 })
 
 #####
@@ -94,15 +101,16 @@ test_that("test param class error - create_data_to_visualization(dictionary_exis
 use_argument <- arguments
 use_argument["save_to_file"] <- 3
 
-test_that("test param class error - create_data_to_visualization(save_to_file)", {
-    expect_error(do.call(create_data_to_visualization, use_argument), "param class error")
+test_that("test param class error - create_data_to_vis...(save_to_file)", {
+    expect_error(do.call(create_data_to_visualization, use_argument),
+                 "param class error")
 })
 
 
 #####
 ##############################################################################################################
 
-drop_test_data_base(json = jsonFile)
+try(drop_test_data_base(json = json_file), silent = T)
 
 ##############################################################################################################
  system("docker stop KarolaTestDatabase")
